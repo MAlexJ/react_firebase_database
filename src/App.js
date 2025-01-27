@@ -5,6 +5,7 @@ import {useEffect, useState} from "react";
 
 function App() {
 
+  const [telegramWebApp, setTelegramWebApp] = useState(null);
   const [user, setUser] = useState(null);
   const [userUnsafe, setUserUnsafe] = useState(null);
   const [theme, setTheme] = useState("light");
@@ -12,6 +13,7 @@ function App() {
   useEffect(() => {
     const tg = window.Telegram?.WebApp;
 
+    setTelegramWebApp( window.Telegram);
     if (tg) {
       // Initialize Telegram Web App API
       setUser(tg.initData?.user || null);
@@ -42,6 +44,9 @@ function App() {
       className={`App ${theme === "dark" ? "dark-theme" : "light-theme"}`}
   >
     <div>
+      <div>
+        telegramWebApp: {JSON.stringify(telegramWebApp, null, 1)}
+      </div>
       <h1>Telegram Web App</h1>
       {user ? (<p>
         Hello, {user.first_name} {user.last_name || ""}!
