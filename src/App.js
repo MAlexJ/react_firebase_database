@@ -1,5 +1,6 @@
 import "./App.css";
 import "./index.css";
+import "./reports/instrument";
 import UserPage from "./component/UserPage";
 import {useEffect, useState} from "react";
 
