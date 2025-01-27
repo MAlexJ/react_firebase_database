@@ -7,17 +7,19 @@ function App() {
 
   const [telegramWebApp, setTelegramWebApp] = useState(null);
   const [user, setUser] = useState(null);
-  const [userUnsafe, setUserUnsafe] = useState(null);
+  const [tgInitDataUnsafe, setTgInitDataUnsafe] = useState(null);
+  const [tgInitData, setTgInitData] = useState(null);
   const [theme, setTheme] = useState("light");
 
   useEffect(() => {
     const tg = window.Telegram?.WebApp;
 
-    setTelegramWebApp( window.Telegram);
+    setTelegramWebApp(window.Telegram);
     if (tg) {
       // Initialize Telegram Web App API
-      setUser(tg.initData?.user || null);
-      setUserUnsafe(tg.initDataUnsafe?.user || null);
+      setUser(tg.initData?.user || tg.initDataUnsafe?.user || null);
+      setTgInitData(tg.initData || null);
+      setTgInitDataUnsafe(tg.initDataUnsafe || null);
       setTheme(tg.colorScheme);
 
       // Show the main button
@@ -55,11 +57,14 @@ function App() {
         functionality.
       </p>)} <br/>
       <br/>
-      {userUnsafe ? (<p>
-        Unsafe init data: , {JSON.stringify(userUnsafe, null, 1)}
-      </p>) : (<p>
-        Unsafe init data is empty!
-      </p>)}
+      <p>
+        tg init data: {JSON.stringify(tgInitData, null, 1)}
+      </p>
+      <br/>
+      <p>
+        Unsafe tg init data: {JSON.stringify(tgInitDataUnsafe, null, 1)}
+      </p>
+      <br/>
     </div>
     <UserPage/>
   </div>);
