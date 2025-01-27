@@ -11,6 +11,10 @@ function App() {
   const [tgInitData, setTgInitData] = useState(null);
   const [theme, setTheme] = useState("light");
 
+  const sendDataToTelegram = () => {
+    window.Telegram.WebApp.sendData("Hello form webapp");
+  }
+
   useEffect(() => {
     const tg = window.Telegram?.WebApp;
 
@@ -32,15 +36,18 @@ function App() {
         alert("main button clicked");
       });
 
+      tg.onEvent('mainButtonClicked', sendDataToTelegram)
+
       // Cleanup
       return () => {
-        tg.MainButton.offClick();
+        // tg.MainButton.offClick();
+        tg.offEvent('mainButtonClicked', sendDataToTelegram)
       };
     } else {
       console.warn(
           "Telegram Web App API is not available. Running outside Telegram.");
     }
-  }, []);
+  }, [sendDataToTelegram]);
 
   return (<div
       // Use theme to conditionally style the app
