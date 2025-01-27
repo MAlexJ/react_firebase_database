@@ -11,15 +11,16 @@ function App() {
   const [tgInitData, setTgInitData] = useState(null);
   const [theme, setTheme] = useState("light");
 
-  const sendDataToTelegram = () => {
-    window.Telegram.WebApp.sendData("Hello form webapp");
-  }
-
   useEffect(() => {
     const tg = window.Telegram?.WebApp;
-
     setTelegramWebApp(window.Telegram);
     if (tg) {
+      tg.ready();
+
+      if (!window.Telegram.WebApp.isExpanded) {
+        window.Telegram.WebApp.expand();
+      }
+
       // Initialize Telegram Web App API
       setUser(tg.initData?.user || tg.initDataUnsafe?.user || null);
       setTgInitData(tg.initData || null);
@@ -35,19 +36,29 @@ function App() {
         tg.sendData("This is data from the WebApp");
         alert("main button clicked");
       });
-
-      tg.onEvent('mainButtonClicked', sendDataToTelegram)
-
       // Cleanup
       return () => {
-        // tg.MainButton.offClick();
-        tg.offEvent('mainButtonClicked', sendDataToTelegram)
+        tg.MainButton.offClick();
       };
     } else {
       console.warn(
           "Telegram Web App API is not available. Running outside Telegram.");
     }
-  }, [sendDataToTelegram]);
+  }, []);
+
+  useEffect(() => {
+    const onResize = () => {
+      const isIos = window.Telegram.WebApp.platform === "ios";
+      const isIphone13Size = window.Telegram.WebApp.viewportStableHeight >= 670;
+
+      if (!isIos || (isIos && isIphone13Size)) {
+        document.body.style.setProperty("overflow", "hidden");
+        document.body.style.setProperty("overscroll-behavior", "none");
+      }
+    };
+    window.Telegram.WebApp.onEvent("viewportChanged", onResize);
+    return () => window.Telegram.WebApp.offEvent("viewportChanged", onResize);
+  }, []);
 
   return (<div
       // Use theme to conditionally style the app
