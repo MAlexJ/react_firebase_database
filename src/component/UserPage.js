@@ -8,7 +8,7 @@ export default function UserPage() {
   const [userId, setUserId] = useState('');
 
   // Username from the form
-  const [userName, setUserName] = useState('');
+  const [userFirstName, setUserFirstName] = useState('');
 
   const backendUrl = process.env.REACT_APP_SERVER_URL;
 
@@ -54,18 +54,19 @@ export default function UserPage() {
 
   // Handle adding a new user
   const handleAddUser = async () => {
-    if (!userId || !userName) {
+    if (!userId || !userFirstName) {
       alert('Please fill out all fields');
       return;
     }
 
-    const newUser = { id: userId, name: userName };
+    const newUser = { userId: userId, first_name: userFirstName };
 
     try {
       const response = await fetch(backendUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + process.env.REACT_APP_JWT_TOKEN
         },
         body: JSON.stringify(newUser),
       });
@@ -80,7 +81,7 @@ export default function UserPage() {
 
       // Reset form fields
       setUserId('');
-      setUserName('');
+      setUserFirstName('');
     } catch (error) {
       console.error('Error adding user:', error);
     }
@@ -100,13 +101,17 @@ export default function UserPage() {
                 placeholder="User ID"
                 className="flex-1 px-4 py-2 border rounded-xl shadow-sm focus:outline-blue-500"
             />
+            <br />
+            <br />
             <input
                 type="text"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-                placeholder="User Name"
+                value={userFirstName}
+                onChange={(e) => setUserFirstName(e.target.value)}
+                placeholder="User first name"
                 className="flex-1 px-4 py-2 border rounded-xl shadow-sm focus:outline-blue-500"
             />
+              <br />
+              <br />
             <button
                 onClick={handleAddUser}
                 className="bg-blue-600 text-white px-6 py-2 rounded-xl hover:bg-blue-700 transition">
@@ -119,8 +124,9 @@ export default function UserPage() {
             {users.map((user) => (
                 <li key={user.id} className="py-4 flex justify-between">
                   <div>
-                    <span className="text-gray-700">User ID: {user.userId}</span><br />
-                    <span className="text-gray-500">References: {user.references.length}</span>
+                    <span className="text-gray-700">User id: {user.id}, userId : {user.userId}</span><br />
+                    <span className="text-gray-500">Info: {JSON.stringify(user.userInfo, null, 1)}</span><br />
+                    <span className="text-gray-500">Refs: {JSON.stringify(user.references, null, 1)}</span>
                     <br />
                     <br />
                   </div>
