@@ -46,19 +46,19 @@ function App() {
     }
   }, []);
 
-  useEffect(() => {
-    const onResize = () => {
-      const isIos = window.Telegram.WebApp.platform === "ios";
-      const isIphone13Size = window.Telegram.WebApp.viewportStableHeight >= 670;
-
-      if (!isIos || (isIos && isIphone13Size)) {
-        document.body.style.setProperty("overflow", "hidden");
-        document.body.style.setProperty("overscroll-behavior", "none");
-      }
-    };
-    window.Telegram.WebApp.onEvent("viewportChanged", onResize);
-    return () => window.Telegram.WebApp.offEvent("viewportChanged", onResize);
-  }, []);
+  // useEffect(() => {
+  //   const onResize = () => {
+  //     const isIos = window.Telegram.WebApp.platform === "ios";
+  //     const isIphone13Size = window.Telegram.WebApp.viewportStableHeight >= 670;
+  //
+  //     if (!isIos || (isIos && isIphone13Size)) {
+  //       document.body.style.setProperty("overflow", "hidden");
+  //       document.body.style.setProperty("overscroll-behavior", "none");
+  //     }
+  //   };
+  //   window.Telegram.WebApp.onEvent("viewportChanged", onResize);
+  //   return () => window.Telegram.WebApp.offEvent("viewportChanged", onResize);
+  // }, []);
 
   return (<div
       // Use theme to conditionally style the app
