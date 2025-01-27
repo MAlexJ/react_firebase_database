@@ -28,7 +28,8 @@ function App() {
 
       // Handle main button click
       tg.MainButton.onClick(() => {
-        tg.sendData("Hello from React!");
+        tg.sendData("This is data from the WebApp");
+        alert("main button clicked");
       });
 
       // Cleanup
