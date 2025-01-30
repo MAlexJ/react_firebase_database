@@ -14,7 +14,7 @@ export default function UserPage() {
   const [userFirstName, setUserFirstName] = useState("");
 
   const backendUrl = process.env.REACT_APP_SERVER_URL;
-  const testTgInitData = process.env.REACT_APP_TEST_TG_INIT_DATA;
+  const testTgInitData = window.Telegram?.WebApp.initData || process.env.REACT_APP_TEST_TG_INIT_DATA;
 
   // Memoize the fetchUsers function using useCallback
   const fetchUsers = useCallback(async () => {

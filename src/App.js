@@ -97,7 +97,7 @@ function App() {
       </p>
       <br/>
       <p>
-        Start params: <pre>{JSON.stringify(params, null, 2)}</pre>
+        Start params: {JSON.stringify(params, null, 2)}
       </p>
       <br/>
     </div>
