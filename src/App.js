@@ -11,10 +11,21 @@ function App() {
   const [tgInitDataUnsafe, setTgInitDataUnsafe] = useState(null);
   const [tgInitData, setTgInitData] = useState(null);
   const [theme, setTheme] = useState("light");
+  const [params, setParams] = useState({});
 
   useEffect(() => {
     const tg = window.Telegram?.WebApp;
     setTelegramWebApp(window.Telegram);
+
+    const queryParams = new URLSearchParams(window.location.search);
+    const paramsObject = {};
+
+    queryParams.forEach((value, key) => {
+      paramsObject[key] = value;
+    });
+
+    setParams(paramsObject);
+
     if (tg) {
       tg.ready();
 
@@ -83,6 +94,10 @@ function App() {
       <br/>
       <p>
         Unsafe tg init data: {JSON.stringify(tgInitDataUnsafe, null, 1)}
+      </p>
+      <br/>
+      <p>
+        Start params: <pre>{JSON.stringify(params, null, 2)}</pre>
       </p>
       <br/>
     </div>
