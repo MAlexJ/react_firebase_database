@@ -15,15 +15,14 @@ export default function UserPage() {
 
   const backendUrl = process.env.REACT_APP_SERVER_URL;
 
-  const tg = window.Telegram?.WebApp;
-
   // Memoize the fetchUsers function using useCallback
   const fetchUsers = useCallback(async () => {
+    const tg = window.Telegram?.WebApp;
     try {
       const response = await fetch(backendUrl, {
         method: "GET", headers: {
           "Content-Type": "application/json",
-          "X-Auth-Token": tg.initData || null,
+          "X-Auth-Token": tg.initData || "empty",
         },
       });
       if (!response.ok) {
@@ -65,11 +64,13 @@ export default function UserPage() {
 
     const newUser = {userId: userId, first_name: userFirstName};
 
+    const tg = window.Telegram?.WebApp;
+
     try {
       const response = await fetch(backendUrl, {
         method: "POST", headers: {
           "Content-Type": "application/json",
-          "X-Auth-Token": tg.initData || null,
+          "X-Auth-Token": tg.initData || "empty",
         }, body: JSON.stringify(newUser),
       });
 
