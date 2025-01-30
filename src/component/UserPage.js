@@ -14,15 +14,14 @@ export default function UserPage() {
   const [userFirstName, setUserFirstName] = useState("");
 
   const backendUrl = process.env.REACT_APP_SERVER_URL;
+  const testTgInitData = process.env.REACT_APP_TEST_TG_INIT_DATA;
 
   // Memoize the fetchUsers function using useCallback
   const fetchUsers = useCallback(async () => {
-    const tg = window.Telegram?.WebApp;
     try {
       const response = await fetch(backendUrl, {
         method: "GET", headers: {
-          "Content-Type": "application/json",
-          "X-Auth-Token": tg.initData || "empty",
+          "Content-Type": "application/json", "X-Auth-Token": testTgInitData,
         },
       });
       if (!response.ok) {
@@ -64,13 +63,10 @@ export default function UserPage() {
 
     const newUser = {userId: userId, first_name: userFirstName};
 
-    const tg = window.Telegram?.WebApp;
-
     try {
       const response = await fetch(backendUrl, {
         method: "POST", headers: {
-          "Content-Type": "application/json",
-          "X-Auth-Token": tg.initData || "empty",
+          "Content-Type": "application/json", "X-Auth-Token": `${testTgInitData}`,
         }, body: JSON.stringify(newUser),
       });
 
